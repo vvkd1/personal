@@ -26,15 +26,16 @@ Route::get('/add' , function(){
 
 
  Route::resource('users', CompanyController::class);
-
+ 
  Route::post('/add', [StudentController::class, 'store'])->name('store-user')->middleware(Authenticate::class);
 
  Route::get('/display', [StudentController::class, 'show'])->middleware(Authenticate::class)->name('display');
- Route::get('/delete-user/{id}', [StudentController::class, 'destroy'])->middleware(Authenticate::class);
+ 
 
  Route::get('/update-user/{id}', [StudentController::class, 'edit'])->middleware(Authenticate::class);
  Route::post('/update-user/{id}', [StudentController::class, 'update'])->name('update-user')->middleware(Authenticate::class);
 
+ Route::get('/delete/{delete_id}', [StudentController::class, 'destroyUser']);
 
  Route::get('/User_Login', function () {
     return view('User_Login');

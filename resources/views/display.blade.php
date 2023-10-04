@@ -7,17 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" />
+
+
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css" />
+
+
 </head>
 
 <body>
@@ -26,6 +29,7 @@
         <div class="container">
             <a class="navbar-brand text-white text-start my-5" href="#">
                 <h3> User Management system</h3>
+
                 <div class="menu-item px-5">
                     <a href="{{ route('logout') }}" class="logout-form btn btn-danger" onclick="event.preventDefault();
 
@@ -35,8 +39,6 @@
                         @csrf
                     </form>
                 </div>
-
-
             </a>
         </div>
 
@@ -69,41 +71,64 @@
                             <th scope="col" class="bg-info">Action</th>
                         </tr>
                     </thead>
+
+
                     <tbody>
-                        <script>
-                        $(function() {
 
-                            var table = $('#data').DataTable({
-                                processing: true,
-                                serverSide: true,
-                                ajax: "{{ route('display') }}",
-                                columns: [{
-                                        data: 'id',
-                                        name: 'id'
-                                    },
-                                    {
-                                        data: 'name',
-                                        name: 'name'
-                                    },
-                                    {
-                                        data: 'email',
-                                        name: 'email'
-                                    },
-                                    {
-                                        data: 'password',
-                                        name: 'password'
-                                    },
-                                    {
-                                        data: 'action',
-                                        name: 'action',
-                                        orderable: false,
-                                        searchable: false
-                                    },
-                                ]
-                            });
 
-                        });
-                        </script>
+                    <script>
+    $(function() {
+        var table = $('#data').DataTable({
+          
+            
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('display') }}",
+            
+            columns: [
+                {
+                    data: 'id',
+                    name: 'id',
+                  
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'email',
+                    name: 'email'
+                },
+                {
+                    data: 'password',
+                    name: 'password'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
+            ],
+            // Add a row number (serial number) column
+            rowCallback: function(row, data, index) {
+                var api = this.api();
+                var startIndex = api.page() * api.page.len();
+
+                // Add 1 to index to start the numbering from 1
+                var rowNum = startIndex + index + 1;
+
+                // Add the row number to the first column (hidden)
+                $(row).find('td:eq(0)').html(rowNum);
+            }
+        })
+       
+    });
+</script>
+
+
+
+
 
                     </tbody>
                 </table>
@@ -112,13 +137,33 @@
         </div>
     </div>
 
-
     <script>
-    
+
+    $(document).on('click', '.delete-users', function() {
+
+        var delete_id = $(this).data("delete_id");
+
+        $.ajax({
+            url: '/delete/' + delete_id,
+            type: "GET",
+            datatype: 'json',
+
+            data: {
+                delete_id: delete_id,
+            },
+              success: function(response) {
+                if (response.success) {
+                    console.log('Record deleted successfully.');
+                   
+                } else {
+                    console.error('Error deleting record: ' + response.message);
+                }
+            }
+        });
+
+    });7337801556
     </script>
 
-
 </body>
-
 
 </html>
