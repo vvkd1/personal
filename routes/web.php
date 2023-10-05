@@ -32,10 +32,16 @@ Route::get('/add' , function(){
  Route::get('/display', [StudentController::class, 'show'])->middleware(Authenticate::class)->name('display');
  
 
- Route::get('/update-user/{id}', [StudentController::class, 'edit'])->middleware(Authenticate::class);
+ Route::get('/update-user/{id}', [StudentController::class, 'edit'])->name('update-user')->middleware(Authenticate::class);
+
  Route::post('/update-user/{id}', [StudentController::class, 'update'])->name('update-user')->middleware(Authenticate::class);
 
  Route::get('/delete/{delete_id}', [StudentController::class, 'destroyUser']);
+
+
+ Route::get('/export', [StudentController::class, 'exportExcel'])->name('export')->middleware(Authenticate::class);
+
+
 
  Route::get('/User_Login', function () {
     return view('User_Login');
