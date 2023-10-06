@@ -34,7 +34,7 @@ Route::get('/add' , function(){
 
  Route::get('/update-user/{id}', [StudentController::class, 'edit'])->name('update-user')->middleware(Authenticate::class);
 
- Route::post('/update-user/{id}', [StudentController::class, 'update'])->name('update-user')->middleware(Authenticate::class);
+ Route::put('/update-user/{id}', [StudentController::class, 'update'])->name('update-user')->middleware(Authenticate::class);
 
  Route::get('/delete/{delete_id}', [StudentController::class, 'destroyUser']);
 

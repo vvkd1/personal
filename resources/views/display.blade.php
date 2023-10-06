@@ -48,21 +48,24 @@
     <div class="container">
         <div class="row mt-4">
             <div class="col-md-12">
-                <a href="/add" class="btn btn-dark "style="float:right; margin-right:160px">Add User</a>
-                <a href="/export" class="btn btn-primary "style="float:right; margin-right:20px"><i class="fa-solid fa-file-export"></i></a>
+                <a href="/add" class="btn btn-dark " style="float:right; margin-right:160px">Add User</a>
+                <button id="exportButton" class="btn btn-primary" style="float:right; margin-right:20px">Export<i
+                        class="fa-solid fa-file-export"></i></button>
                 <!-- <a href="/add" class="btn btn-primary"style="float:right; margin-right:10px" >Add User</a><br> -->
             </div>
         </div>
     </div>
+
+
+
     <div class="container">
         <div class="row mt-4">
             <div class="col-md-12">
                 <div class="text-center">
-                    @if(session()->has('message'))
-                    <div class="alert alert-success">
-
-                        {{session()->get('message')}}
-                        <button type="button" class="close" data-dismiss="alert">☓</button>
+                    @if(Session::has('message'))
+                    <div style="text-align: center;">
+                        <div style="width: 500px; margin: 0 auto;" class="alert alert-success">
+                            {{ Session::get('message') }}</div>
                     </div>
                     @endif
                 </div>
@@ -186,7 +189,41 @@
 
 
     });
+    $("document").ready(function() {
+        setTimeout(function() {
+            $("div.alert-success").remove();
+        }, 2000);
+    });
     </script>
+    <script>
+    $(document).ready(function() {
+        $('#exportButton').click(function() {
+            fetch('/export', { //This line uses the fetch API to make a GET request to the "/export" URL on your server. It starts the process of requesting data from the server.
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then((response) => response.blob())
+                .then((blob) => {
+                    // Create a blob URL and trigger download
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'exported_file.xlsx';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch((error) => {
+                    console.error('Export failed:', error);
+                    alert('Export failed.');
+                });
+
+        });
+    });
+    </script>
+
 
 </body>
 

@@ -20,34 +20,34 @@
                     @csrf
                     <div class="mb-3">
                         <label for="username" class="form-label">user name</label>
-                        <input type="text" class="form-control" id="username" name="name" value="{{old('name')}}" >
+                        <input type="text" class="form-control" id="username" name="name" value="{{old('name')}}">
                         <small class="text-danger">
-                                    @if ($errors->has('name'))
-                                        <strong>The name is required.</strong>
-                                    @endif
-                                </small>
+                            @if ($errors->has('name'))
+                            <strong>The name is required.</strong>
+                            @endif
+                        </small>
 
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}" >
+                        <input type="email" class="form-control" id="email" name="email" value="{{old('email')}}">
                         <small class="text-danger">
-                                    @if ($errors->has('email'))
-                                        <strong>The email is required.</strong>
-                                    @endif
-                                </small>
+                            @if ($errors->has('email'))
+                            <strong>The email is required.</strong>
+                            @endif
+                        </small>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" >
+                        <input type="password" class="form-control" id="password" name="password">
                         <small class="text-danger">
-                                    @if ($errors->has('password'))
-                                        <strong>The password is required.</strong>
-                                    @endif
-                                </small>
+                            @if ($errors->has('password'))
+                            <strong>The password is required.</strong>
+                            @endif
+                        </small>
                     </div>
-                     <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary">Register</button>
                 </form>
             </div>
         </div>

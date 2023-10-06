@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Exports\UsersExport;
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\StudentModel;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
-
+use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 class StudentController extends Controller
 {
@@ -29,26 +30,22 @@ class StudentController extends Controller
             'password' => 'required',
        
         ]);
-        
+        try{
         $store = new StudentModel();
         $store->name = $request->get('name');
         $store->email = $request->get('email');
         $store->password = Hash::make($request->get('password'));
         $store->save();
 
-        // echo "<script> alert('data inserted successfully')</script>";
+        }catch(Exception $exception){
 
+       return back()->withError($exception->getMessage())->withInput();
+        }
+        Session::flash('message', ' Added Successfully');
          return redirect('home');
-
       
     }
 
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
     public function show(Request $request)
     {
       
@@ -59,18 +56,20 @@ class StudentController extends Controller
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
      
-                        $temp = '<a href="/update-user/'. $row->id .'" class="editBtn"><i class="fa-solid fa-pen-to-square" style="color: #4a7ed9;"></i></a>';
+                        $temp = '<a href="' . route('update-user', ['id' => $row->id]) . '" class="editBtn"><i class="fa-solid fa-pen-to-square" style="color: #4a7ed9;"></i></a>';
 
-                        $temp = $temp.' <a href="javascript:void(0)"  data-delete_id="'.$row->id.'" class=" delete-users"><i class="fa-solid fa-trash" style="color: #cc2424;"></i></a>';
-       
+
+                        $temp = $temp.' <a href="javascript:void(0)"  data-delete_id="'.$row->id.'" class=" delete-users" id="openEditForm"><i class="fa-solid fa-trash" style="color: #cc2424;"></i></a>';
+                       
                       return $temp;
-                      
+
                             
                     })
                     ->rawColumns(['action'])
                     ->make(true);
                 }
        
+                
         
             return view('display');
     }
@@ -85,8 +84,13 @@ class StudentController extends Controller
         
         // $data = StudentModel::find(decrypt($id));
         // return view('update-user',['data'=>  $data]);
-
+try{
         $data = StudentModel::findOrFail($id);
+        
+    }catch(Exception $exception){
+
+        return back()->withError($exception->getMessage())->withInput();
+         }
         return view('update-user', compact('data'));
 
     }
@@ -98,48 +102,52 @@ class StudentController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'required',
-       
         ]);
-
-    //    $data = StudentModel::find($id);
-    //    $data->name = $request->name;
-    //    $data->email = $request->email;
-    //    $data->password = Hash::make($request->password);
-    //    $data->save();
-    //    return redirect('display');
-
-    $user = StudentModel::findOrFail($id);
     
-        $user->name = $request->input('name');
-        $user->email =  $request->input('email');
-        $user->password  =  Hash::make($request->password);
-        $user->save();
+        try {
+            $user = StudentModel::findOrFail($id);
+            $user->update([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => bcrypt($request->input('password')), // Hash the password
+            ]);
+        } catch (Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
+        }
+        Session::flash('message', 'Updated Successfully');
 
-    return redirect()->route('display')->with('success', 'User updated successfully');
+        return redirect('display'); // Use named route
     }
-
-
+    
 
     public function destroyUser(Request $request)
     {
+        try{
         $delete_id = $request->delete_id;
     
         // Find the record to delete
         $delete = StudentModel::find($delete_id);
     
-        if ($delete) {
-            // Delete the record
+        if (!is_null($delete)) {
+            
             $delete->delete();
+            Session::flash('message', ' Deleted Successfully');
             return view('display');
         } 
+    }catch(Exception $exception){
+
+        return back()->withError($exception->getMessage())->withInput();
+         }
     }
 
     public function exportExcel(Request $request){
 
-        
-        return Excel::download(new UsersExport, 'users.xlsx');
-      
+        try{
+        return Excel::download(new UsersExport, 'user.xlsx');
+    }catch(Exception $exception){
+
+        return back()->withError($exception->getMessage())->withInput();
+         }
     }
      
 }
-
