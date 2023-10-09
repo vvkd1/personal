@@ -11,12 +11,15 @@ return new class extends Migration
      *
      * @return void
      */
-    // public function up()
-    // {
-    //     Schema::table('users', function (Blueprint $table) {
-    //         $table->string('number');
-    //     });
-    // }
+    public function up()
+    {
+        Schema::create('product', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('detail');
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
@@ -25,9 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            
-            $table->dropColumn('number');
-        });
+        Schema::dropIfExists('product');
     }
 };

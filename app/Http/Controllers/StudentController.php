@@ -34,7 +34,7 @@ class StudentController extends Controller
         $store = new StudentModel();
         $store->name = $request->get('name');
         $store->email = $request->get('email');
-        $store->password = Hash::make($request->get('password'));
+        $store->password = bcrypt($request->get('password'));
         $store->save();
 
         }catch(Exception $exception){
@@ -43,6 +43,7 @@ class StudentController extends Controller
         }
         Session::flash('message', ' Added Successfully');
          return redirect('home');
+         
       
     }
 
@@ -52,11 +53,12 @@ class StudentController extends Controller
         if ($request->ajax()) {
             $data = StudentModel::latest()->get();
 
+
             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
      
-                        $temp = '<a href="' . route('update-user', ['id' => $row->id]) . '" class="editBtn"><i class="fa-solid fa-pen-to-square" style="color: #4a7ed9;"></i></a>';
+                        $temp = '<a href="' . route('update-user', ['id' => $row->id]).'" class="editBtn"><i class="fa-solid fa-pen-to-square" style="color: #4a7ed9;"></i></a>';
 
 
                         $temp = $temp.' <a href="javascript:void(0)"  data-delete_id="'.$row->id.'" class=" delete-users" id="openEditForm"><i class="fa-solid fa-trash" style="color: #cc2424;"></i></a>';

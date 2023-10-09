@@ -49,6 +49,7 @@
                     </div>
 
                     <div class="mb-3">
+                  
                         <label for="password" class="form-label">Password</label>
                         <input type="password" class="form-control" id="password" name="password"
                             value="{{$data->password}}" required>
@@ -63,6 +64,7 @@
             </div>
         </div>
     </div>
+
 
     
 <script>
@@ -84,7 +86,7 @@ $("#editForm").on("submit", function (e) {
         },
         success: function (response) {
             alert(response.message.);
-            console.log(response.message.);
+            // console.log('success');
             // Redirect to the display page after a successful update
             window.location.href = "{{ route('display') }}";
         },
