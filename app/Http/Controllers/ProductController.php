@@ -37,7 +37,7 @@ class ProductController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $editBtn = '<a href="' . route('update-Product', ['id' => $row->id]) . '" class="editBtn"><i class="fa-solid fa-pen-to-square" style="color: #4a7ed9;"></i></a>';
-                    $deleteBtn = '<a href="' . route('delete-Product', ['id' => $row->id]) . '" class="delete-users" id="openEditForm"><i class="fa-solid fa-trash" style="color: #cc2424;"></i></a>';
+                    $deleteBtn = '<a href="' . route('delete-Product', ['id' => $row->id]) . '" class="delete-users" onclick ="return confirm(\'Are you sure you want to delete this user?\')" id="openEditForm"><i class="fa-solid fa-trash" style="color: #cc2424;"></i></a>';
                     
                     return $editBtn . ' ' . $deleteBtn;
                 })

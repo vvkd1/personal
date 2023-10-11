@@ -4,62 +4,58 @@ namespace App\Http\Controllers;
 
 use App\Models\RolesModel;
 use Illuminate\Http\Request;
+use League\CommonMark\Node\Block\Document;
 
 class RolesController extends Controller
 {
-    
-    public function store(Request $request)
+
+
+    public function storeRole(Request $request, RolesModel $rm)
     {
 
-        $add  = new RolesModel();
-        $add->name = $request->get('name');
-        $add->save();
-        return view('roleDisplay');
+
+        $addRole = new RolesModel;
+        $addRole->name = $request->get('name');
+        $addRole->guard_name = $request->get('guard_name');
+        $addRole->save();
+        session()->flash('success', 'Role added successfully.');
+
+        return redirect('showRoles');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showrole()
-    {
-        $show = RolesModel::all();
-        return view('roleDisplay' , ['show'=>$show]);
+    public function showRole(RolesModel $rm)
+    {  
+        $Ad = RolesModel::all();
+        return view('showRoles', compact('Ad'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+
+    public function editRole($id, RolesModel $rm)
     {
-        //
+
+        $edit = RolesModel::find(decrypt($id));
+        return view('updateRoles', ['edit' => $edit]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function updateRole(Request $request, $id, RolesModel $rm)
     {
-        //
+
+        $update = RolesModel::find(decrypt($id));
+        $update->name = $request->get('name');
+        $update->save();
+        session()->flash('success', 'Role Update successfully.');
+        return redirect('showRoles');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroyRole($id, RolesModel $rm)
     {
-        //
+
+        $delete = RolesModel::find($id);
+        $delete->delete();
+        session()->flash('success', 'Role delete successfully.');
+        return redirect('showRoles');
     }
 }

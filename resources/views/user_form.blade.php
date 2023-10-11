@@ -12,6 +12,7 @@
 </head>
 
 <body>
+  @include('header');
     <div class="container">
         <div class="row mt-4">
             <div class="col-md-4">
@@ -46,6 +47,16 @@
                             <strong>The password is required.</strong>
                             @endif
                         </small>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" name="role_id" aria-label="Default select example">
+
+                        <option>Select</option>
+                        @foreach($show as $print)
+                            
+                            <option value="{{$print->id}}">{{$print->name}}</option>
+                        @endforeach
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Register</button>
                 </form>

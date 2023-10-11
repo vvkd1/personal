@@ -12,6 +12,7 @@
 </head>
 
 <body>
+  @include('header');
     <div class="container">
         <div class="row mt-4">
             <div class="col-md-4">

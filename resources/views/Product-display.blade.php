@@ -49,21 +49,20 @@
                         {{ session('message') }}
                     </div>
                     @endif
-                   
+
                 </div>
-                <table id="productT
-                able" class="table table-striped data-table">
+                <table id="productTable" class="table table-bordered data-table">
                     <thead>
                         <tr>
-                            <th scope="col" class="bg-info">Id</th>
-                            <th scope="col" class="bg-info">Name</th>
-                            <th scope="col" class="bg-info">detail</th>
-                            <th scope="col" class="bg-info">Action</th>
+                            <th scope="col" class="bg-info text-center">Id</th>
+                            <th scope="col" class="bg-info text-center">Name</th>
+                            <th scope="col" class="bg-info text-center">detail</th>
+                            <th scope="col" class="bg-info text-center">Action</th>
                         </tr>
                     </thead>
 
 
-                    <tbody>
+                    <tbody class="text-center">
 
                         <script>
                             $(document).ready(function() {
@@ -114,34 +113,8 @@
                             });
 
                         </script>
-                        <!----delete and refresh ---->
-                        <script>
-                            // Function to delete a record
-                            /* function deleteRecord(delete_id) {
-                                 $.ajax({
-                                     url: '/delete-product/' + delete_id
-                                     , type: "GET"
-                                     , datatype: 'json'
-                                     , data: {
-                                         delete_id: delete_id
-                                     , }
-                                     , success: function(data) {
-                                         refreshTable(); // Refresh DataTable without resetting page
-                                     }
-                                     , error: function(data) {
-                                         console.log('Error:', data);
-                                     }
-                                 });
-                             }
 
-                             // Function to refresh the DataTable
-                             function refreshTable() {
-                                 var table = $('#productTable').DataTable(); // Reinitialize DataTable
-                                 table.ajax.reload(null, false);
-                             }
-                                  */
 
-                        </script>
                     </tbody>
                 </table>
 

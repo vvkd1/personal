@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\UsersExport;
+use App\Models\RolesModel;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\StudentModel;
@@ -14,54 +15,52 @@ class StudentController extends Controller
 {
    
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  
+   
    
     public function store(Request $request)
     {
-        
         $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|email',
             'password' => 'required',
-       
+            'role_id' => 'required',
         ]);
-        try{
-        $store = new StudentModel();
-        $store->name = $request->get('name');
-        $store->email = $request->get('email');
-        $store->password = bcrypt($request->get('password'));
-        $store->save();
-
-        }catch(Exception $exception){
-
-       return back()->withError($exception->getMessage())->withInput();
+    
+        try {
+            $store = new StudentModel();
+            $store->name = $request->input('name');
+            $store->email = $request->input('email');
+            $store->password = bcrypt($request->input('password'));
+            $store->role_id = $request->input('role_id'); 
+            $store->save();
+        } catch (Exception $exception) {
+            return back()->withError($exception->getMessage())->withInput();
         }
-        Session::flash('message', ' Added Successfully');
-         return redirect('home');
-         
-      
+        
+        Session::flash('message', 'User Added Successfully');
+        return redirect('home');
     }
-
-    public function show(Request $request)
+    
+    public function sendRoles()
     {
+        $show = RolesModel::all();
+
+        return view('user_form', compact('show'));
+    }
+    
+    public function show(Request $request)
+     {
       
         if ($request->ajax()) {
             $data = StudentModel::latest()->get();
-
-
-            return Datatables::of($data)
+          
+             return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
      
                         $temp = '<a href="' . route('update-user', ['id' => $row->id]).'" class="editBtn"><i class="fa-solid fa-pen-to-square" style="color: #4a7ed9;"></i></a>';
 
-
-                        $temp = $temp.' <a href="javascript:void(0)"  data-delete_id="'.$row->id.'" class=" delete-users" id="openEditForm"><i class="fa-solid fa-trash" style="color: #cc2424;"></i></a>';
+                        $temp = $temp.' <a href="javascript:void(0)"  data-delete_id="'.$row->id.'" class=" delete-users"  id="openEditForm"><i class="fa-solid fa-trash" style="color: #cc2424;"></i></a>';
                        
                       return $temp;
 

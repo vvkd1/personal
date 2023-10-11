@@ -8,11 +8,8 @@
 
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -23,26 +20,18 @@
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 
 </head>
-
-
 <body>
-
-  @include('header')
-
+    @include('header')
     <h2 class="text-center mt-3">Users List </h2>
     <div class="container">
         <div class="row mt-4">
             <div class="col-md-12">
                 <a href="/add" class="btn btn-primary " style="float:right; margin-right:160px">Add User </a>
-                <button id="exportButton" class="btn btn-dark" style="float:right; margin-right:20px">Export <i
-                        class="fa-solid fa-file-export"></i></button>
+                <button id="exportButton" class="btn btn-dark" style="float:right; margin-right:20px">Export <i class="fa-solid fa-file-export"></i></button>
                 <!-- <a href="/add" class="btn btn-primary"style="float:right; margin-right:10px" >Add User</a><br> -->
             </div>
         </div>
     </div>
-
-
-
     <div class="container">
         <div class="row mt-4">
             <div class="col-md-12">
@@ -54,70 +43,75 @@
                     </div>
                     @endif
                 </div>
-                <table id="datatable" class="table table-striped data-table">
+                <table id="datatable" class="table table-bordered data-table">
                     <thead>
                         <tr>
-                            <th scope="col" class="bg-info">Id</th>
-                            <th scope="col" class="bg-info">Name</th>
-                            <th scope="col" class="bg-info">Email</th>
-                            <th scope="col" class="bg-info">Password</th>
-                            <th scope="col" class="bg-info">Action</th>
+                            <th scope="col" class="bg-info text-center">Id</th>
+                            <th scope="col" class="bg-info text-center">Name</th>
+                            <th scope="col" class="bg-info text-center">Email</th>
+                            <th scope="col" class="bg-info text-center">Password</th>
+                             <th scope="col" class="bg-info text-center">Role</th>
+                            <th scope="col" class="bg-info text-center">Action</th>
                         </tr>
                     </thead>
 
 
-                    <tbody>
+                    <tbody class='text-center'>
 
                         <script>
-                        $(document).ready(function() {
-                            // Function to initialize the DataTable
-                            var table = $('#datatable').DataTable({
-                                processing: true,
-                                serverSide: true,
-                                ajax: "{{ route('display') }}",
-                                columns: [{
-                                        data: 'id',
-                                        name: 'id',
-                                    },
-                                    {
-                                        data: 'name',
-                                        name: 'name',
-                                    },
-                                    {
-                                        data: 'email',
-                                        name: 'email',
-                                    },
-                                    {
-                                        data: 'password',
-                                        name: 'password',
-                                    },
-                                    {
-                                        data: 'action',
-                                        name: 'action',
-                                        orderable: false,
-                                        searchable: false,
-                                    },
-                                ],
-                                // Add a row number (serial number) column
-                                rowCallback: function(row, data, index) {
-                                    var api = this.api();
-                                    var startIndex = api.page() * api.page.len();
+                            $(document).ready(function() {
+                                var table = $('#datatable').DataTable({
+                                    processing: true
+                                    , serverSide: true
+                                    , ajax: "{{ route('display') }}"
+                                    , columns: [{
+                                            data: 'id'
+                                            , name: 'id'
+                                        , }
+                                        , {
+                                            data: 'name'
+                                            , name: 'name'
+                                        , }
+                                        , {
+                                            data: 'email'
+                                            , name: 'email'
+                                        , }
+                                        , {
+                                            data: 'password'
+                                            , name: 'password'
+                                        , }
+                                        , {
+                                            data: 'role_id'
+                                            , name: 'role_id'
+                                        , }
+                                        , {
+                                            data: 'action'
+                                            , name: 'action'
+                                            , orderable: false
+                                            , searchable: false
+                                        , }
+                                    , ],
+                                    // Add a row number (serial number) column
+                                    rowCallback: function(row, data, index) {
+                                        var api = this.api();
+                                        var startIndex = api.page() * api.page.len();
 
-                                    // Add 1 to index to start the numbering from 1
-                                    var rowNum = startIndex + index + 1;
+                                        // Add 1 to index to start the numbering from 1
+                                        var rowNum = startIndex + index + 1;
 
-                                    // Add the row number to the first column (hidden)
-                                    $(row).find('td:eq(0)').html(rowNum);
-                                }
+                                        // Add the row number to the first column (hidden)
+                                        $(row).find('td:eq(0)').html(rowNum);
+                                    }
+                                });
+
+                                // Delete click event code
+                                $(document).on('click', '.delete-users', function(e) {
+                                    e.preventDefault();
+                                    var delete_id = $(this).data("delete_id");
+                                    deleteRecord(delete_id);
+                                });
                             });
 
-                            // Delete click event code
-                            $(document).on('click', '.delete-users', function(e) {
-                                e.preventDefault();
-                                var delete_id = $(this).data("delete_id");
-                                deleteRecord(delete_id);
-                            });
-                        });
                         </script>
 
                     </tbody>
@@ -128,83 +122,79 @@
     </div>
     <!----delete and refresh ---->
     <script>
-    // Function to delete a record
-    function deleteRecord(delete_id) {
-        $.ajax({
-            url: '/delete/' + delete_id,
-            type: "GET",
-            datatype: 'json',
-            data: {
-                delete_id: delete_id,
-            },
-            success: function(data) {
-                refreshTable(); // Refresh DataTable without resetting page
-            },
-            error: function(data) {
-                console.log('Error:', data);
-            }
-        });
-    }
+        function deleteRecord(delete_id) {
+            $.ajax({
+                url: '/delete/' + delete_id
+                , type: "GET"
+                , datatype: 'json'
+                , data: {
+                    delete_id: delete_id
+                , }
+                , success: function(data) {
+                    refreshTable(); 
+                }
+                , error: function(data) {
+                    console.log('Error:', data);
+                }
+            });
+        }
 
-    // Function to refresh the DataTable
-    function refreshTable() {
-        var table = $('#datatable').DataTable(); // Reinitialize DataTable
-        table.ajax.reload(null, false);
-    }
+        function refreshTable() {
+            var table = $('#datatable').DataTable(); 
+            table.ajax.reload(null, false);
+        }
+
     </script>
 
     <!-- -------edit------- -->
     <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        $('#dataTable').on('click', '.editBtn', function() {
+            $('#dataTable').on('click', '.editBtn', function() {
 
-            var data = dataTable.row($(this).closest('tr')).data();
-            $data = $('#username').val(data.name);
-            $('#email').val(data.email);
-            $('#password').val(data.password);
-            $('#editid').val(data.id);
+                var data = dataTable.row($(this).closest('tr')).data();
+                $data = $('#username').val(data.name);
+                $('#email').val(data.email);
+                $('#password').val(data.password);
+                $('#editid').val(data.id);
 
 
+            });
+
+            //  -------update------
+        });
+        $(document).ready(function() {
+            $("div.alert-success").fadeOut(2000);
         });
 
-        //  -------update-------
-
-
-
-
-    });
-    $(document).ready(function() {
-    $("div.alert-success").fadeOut(2000);
-});
     </script>
     <script>
-    $(document).ready(function() {
-        $('#exportButton').click(function() {
-            fetch('/export', { //This line uses the fetch API to make a GET request to the "/export" URL on your server. It starts the process of requesting data from the server.
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                .then((response) => response.blob())
-                .then((blob) => {
-                    // Create a blob URL and trigger download
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'exported_file.xlsx';
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch((error) => {
-                    console.error('Export failed:', error);
-                    alert('Export failed.');
-                });
+        $(document).ready(function() {
+            $('#exportButton').click(function() {
+                fetch('/export', {
+                        method: 'GET'
+                        , headers: {
+                            'Content-Type': 'application/json'
+                        , }
+                    , })
+                    .then((response) => response.blob())
+                    .then((blob) => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'exported_file.xlsx';
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                    })
+                    .catch((error) => {
+                        console.error('Export failed:', error);
+                        alert('Export failed.');
+                    });
 
+            });
         });
-    });
+
     </script>
 
 
