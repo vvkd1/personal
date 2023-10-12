@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\HomeController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolesController;
@@ -114,3 +116,22 @@ Route::post('/update-role/{id}', [App\Http\Controllers\RolesController::class, '
 Route::get('/addRoles', function () {
     return view('addRoles');
 })->middleware(Authenticate::class);
+
+
+//permission
+
+
+Route::post('/storePermission', [App\Http\Controllers\PermissionController::class, 'storePermission']);
+
+Route::get('/showPermission', [App\Http\Controllers\PermissionController::class, 'showPermission']);
+
+Route::get('/edit-permission/{id}', [App\Http\Controllers\PermissionController::class, 'editPermission']);
+
+Route::post('/update-permission/{id}', [App\Http\Controllers\PermissionController::class, 'updatePermission']);
+
+Route::get('/delete-permission/{id}', [App\Http\Controllers\PermissionController::class, 'destroyPermission']);
+
+
+Route::get('/addPermission', function () {
+    return view('addPermission');
+});

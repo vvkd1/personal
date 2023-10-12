@@ -19,8 +19,7 @@
                     {{ session('success') }}
                 </div>
                 @endif
-                <span><button class="btn btn-primary ml-5 " style="float: right"><a class="text-light" href="/addRoles">Add 
-                Role</a></button></span>
+                <span><button class="btn btn-primary ml-5 " style="float: right"><a class="text-light" href="/addRoles">Add Role</a></button></span>
 
                 <br>
                 <br>

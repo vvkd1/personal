@@ -4,9 +4,10 @@
                 <h3> User Management system</h3>
             </a>
 
-            <div> <a href="display" class="btn btn-primary">users Management</a></div>
-            <div> <a href="/showRoles" class="btn btn-primary">roles Management</a></div>
-            <div> <a href="/product-display" class="btn btn-primary">Products Management</a></div>
+            <div> <a href="display" class="btn btn-primary">users </a></div>
+            <div> <a href="/showRoles" class="btn btn-primary">roles </a></div>
+            <div> <a href="/product-display" class="btn btn-primary">Products </a></div>
+             <div> <a href="/showPermission" class="btn btn-primary">Permission</a></div>
             
             <div class="menu-item px-5">
                 <a href="{{ route('logout') }}" class="logout-form btn btn-danger" onclick="event.preventDefault();
