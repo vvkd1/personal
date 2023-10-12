@@ -92,7 +92,7 @@ Route::get('/roleDisplay', function () {
 })->middleware(Authenticate::class);
 
 Route::post('/addRole', [App\Http\Controllers\RolesController::class, 'store'])->middleware(Authenticate::class);;
-Route::get('/roleDisplay', [App\Http\Controllers\RolesController::class, 'show']);
+Route::get('/roleDisplay', [App\Http\Controllers\RolesController::class, 'show'])->name('showRoles');;
 Route::get('/deleteRole/{id}', [RolesController::class, 'destroyRole'])->name('deleteRole')->middleware(Authenticate::class);
 
 
@@ -120,18 +120,25 @@ Route::get('/addRoles', function () {
 
 //permission
 
+Route::post('/storePermission', [App\Http\Controllers\PermissionController::class, 'storePermission'])->middleware(Authenticate::class);
 
-Route::post('/storePermission', [App\Http\Controllers\PermissionController::class, 'storePermission']);
+Route::get('/showPermission', [App\Http\Controllers\PermissionController::class, 'showPermission'])->name('showPermission');
 
-Route::get('/showPermission', [App\Http\Controllers\PermissionController::class, 'showPermission']);
+Route::get('/edit-permission/{id}', [App\Http\Controllers\PermissionController::class, 'editPermission'])->middleware(Authenticate::class);
 
-Route::get('/edit-permission/{id}', [App\Http\Controllers\PermissionController::class, 'editPermission']);
+Route::post('/update-permission/{id}', [App\Http\Controllers\PermissionController::class, 'updatePermission'])->middleware(Authenticate::class);
 
-Route::post('/update-permission/{id}', [App\Http\Controllers\PermissionController::class, 'updatePermission']);
-
-Route::get('/delete-permission/{id}', [App\Http\Controllers\PermissionController::class, 'destroyPermission']);
+Route::get('/delete-permission/{id}', [App\Http\Controllers\PermissionController::class, 'destroyPermission'])->middleware(Authenticate::class);
 
 
 Route::get('/addPermission', function () {
     return view('addPermission');
 });
+
+// Route::get('/', function () {
+//     return view('auth.login');
+// });
+
+
+
+
